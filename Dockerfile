@@ -28,6 +28,8 @@ RUN apt-get install -y gh
 RUN pip install --no-cache-dir --upgrade pip pip-tools \
   pip --no-cache-dir install cumulusci cookiecutter
 
+RUN apt-get install -y jq
+
 # Copy devhub auth script and make it executable
 COPY devhub.sh /usr/local/bin/devhub.sh
 RUN chmod +x /usr/local/bin/devhub.sh
