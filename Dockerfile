@@ -11,7 +11,7 @@ RUN \
   wget -qO- https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - && \
   apt-get update
 RUN apt-get install -y nodejs
-RUN npm install --global npm jq commander
+# RUN npm install --global npm jq commander
 # RUN npm install --global sfdx-cli --ignore-scripts
 RUN npm install --global @salesforce/cli --ignore-scripts
 
