@@ -33,11 +33,10 @@ RUN apt-get install -y jq
 
 # Install PowerShell
 WORKDIR /tmp
-RUN wget -q https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb
-RUN dpkg -i packages-microsoft-prod.deb
-RUN rm packages-microsoft-prod.deb
-RUN apt-get update
-RUN apt-get install -y powershell
+RUN wget -q https://github.com/PowerShell/PowerShell/releases/download/v7.4.1/powershell_7.4.1-1.deb_amd64.deb
+RUN dpkg -i powershell_7.4.1-1.deb_amd64.deb
+RUN apt-get install -f
+RUN rm powershell_7.4.1-1.deb_amd64.deb
 
 # Copy devhub auth script and make it executable
 COPY devhub.sh /usr/local/bin/devhub.sh
