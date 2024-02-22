@@ -32,7 +32,7 @@ RUN pip install --no-cache-dir --upgrade pip pip-tools \
 #RUN apt-get install -y jq
 
 # Install PowerShell
-RUN apt-get install -y libicu
+RUN apt-get install -y libicu72
 WORKDIR /tmp
 RUN wget -q https://github.com/PowerShell/PowerShell/releases/download/v7.4.1/powershell_7.4.1-1.deb_amd64.deb
 RUN dpkg -i powershell_7.4.1-1.deb_amd64.deb
