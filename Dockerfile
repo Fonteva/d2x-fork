@@ -34,10 +34,10 @@ RUN apt-get install -y jq
 # Install PowerShell
 WORKDIR /tmp
 RUN wget -q https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb
-RUN sudo dpkg -i packages-microsoft-prod.deb
+RUN dpkg -i packages-microsoft-prod.deb
 RUN rm packages-microsoft-prod.deb
-RUN sudo apt-get update
-RUN sudo apt-get install -y powershell
+RUN apt-get update
+RUN apt-get install -y powershell
 
 # Copy devhub auth script and make it executable
 COPY devhub.sh /usr/local/bin/devhub.sh
