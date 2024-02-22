@@ -32,7 +32,7 @@ RUN pip install --no-cache-dir --upgrade pip pip-tools \
 RUN apt-get install -y jq
 
 # Install PowerShell
-RUN source /etc/os-release && wget -q https://packages.microsoft.com/config/debian/$VERSION_ID/packages-microsoft-prod.deb -o /tmp/packages-microsoft-prod.deb
+RUN source wget -q https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -o /tmp/packages-microsoft-prod.deb
 RUN sudo dpkg -i /tmp/packages-microsoft-prod.deb
 RUN rm /tmp/packages-microsoft-prod.deb
 RUN sudo apt-get update
