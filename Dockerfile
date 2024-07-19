@@ -28,9 +28,6 @@ RUN apt-get install -y gh
 RUN pip install --no-cache-dir --upgrade pip pip-tools
 RUN pip --no-cache-dir install cumulusci
 
-# Install jq
-#RUN apt-get install -y jq
-
 # Install PowerShell
 RUN apt-get install -y libicu72
 WORKDIR /tmp
@@ -38,6 +35,9 @@ RUN wget -q https://github.com/PowerShell/PowerShell/releases/download/v7.4.1/po
 RUN dpkg -i powershell_7.4.1-1.deb_amd64.deb
 RUN apt-get install -f
 RUN rm powershell_7.4.1-1.deb_amd64.deb
+
+# Install common tools
+RUN apt-get install -y unzip
 
 # Copy devhub auth script and make it executable
 COPY devhub.sh /usr/local/bin/devhub.sh
