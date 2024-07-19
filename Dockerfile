@@ -26,7 +26,7 @@ RUN apt-get install -y gh
 
 # Install CumulusCI
 RUN pip install --no-cache-dir --upgrade pip pip-tools \
-  pip --no-cache-dir install cumulusci cookiecutter
+  pip --no-cache-dir install cumulusci
 
 # Install jq
 #RUN apt-get install -y jq
