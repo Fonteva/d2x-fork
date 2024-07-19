@@ -8,11 +8,12 @@ on:
       - Dockerfile
       - devhub.sh
   workflow_dispatch:
-    push_image:
-      description: 'Push the image after building'
-      required: false
-      type: boolean
-      default: false
+    inputs:
+      push_image:
+        description: 'Push the image after building'
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   build:
