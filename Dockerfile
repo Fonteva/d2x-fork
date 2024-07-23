@@ -37,7 +37,7 @@ RUN apt-get install -f
 RUN rm powershell_7.4.1-1.deb_amd64.deb
 
 # Install common tools
-RUN apt-get install -y unzip
+RUN apt-get install -y unzip bash
 
 # Copy devhub auth script and make it executable
 COPY devhub.sh /usr/local/bin/devhub.sh
