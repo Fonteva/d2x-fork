@@ -21,6 +21,19 @@ on:
         required: false
         type: boolean
         default: false
+      no_cache:
+        description: 'Disable the Docker build cache'
+        required: false
+        type: boolean
+        default: false
+      tag:
+        description: 'Docker image tag: '
+        required: false
+        type: choice
+        options:
+          - latest
+          - test
+        default: latest
 
 jobs:
   build:
@@ -43,8 +56,9 @@ jobs:
         with:
           context: .
           push: ${{ github.event_name == 'push' || github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.push_image) }}
+          no-cache: ${{ github.event_name == 'workflow_dispatch' && inputs.no_cache || false }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: |
-            ghcr.io/fonteva/d2x-fork:latest
+            ghcr.io/fonteva/d2x-fork:${{ github.event_name == 'workflow_dispatch' && inputs.tag || 'latest' }}
             ghcr.io/fonteva/d2x-fork:${{ github.sha }}
