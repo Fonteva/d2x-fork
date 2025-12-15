@@ -33,7 +33,7 @@ RUN apt-get install -y gh
 # Install PowerShell
 RUN apt-get install -y apt-transport-https software-properties-common
 WORKDIR /tmp
-RUN source /etc/os-release && wget -q https://packages.microsoft.com/config/debian/$VERSION_ID/packages-microsoft-prod.deb
+RUN . /etc/os-release && wget -q https://packages.microsoft.com/config/debian/$VERSION_ID/packages-microsoft-prod.deb
 RUN dpkg -i packages-microsoft-prod.deb
 RUN rm packages-microsoft-prod.deb
 RUN apt-get update
