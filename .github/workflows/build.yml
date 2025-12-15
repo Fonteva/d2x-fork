@@ -61,5 +61,5 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           tags: |
-            ghcr.io/fonteva/d2x-fork:${{ github.event_name == 'workflow_dispatch' && inputs.tag || 'latest' }}
+            ghcr.io/fonteva/d2x-fork:${{ github.event_name == 'workflow_dispatch' && inputs.tag || 'dev' }}
             ghcr.io/fonteva/d2x-fork:${{ github.sha }}
