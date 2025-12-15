@@ -1,20 +1,28 @@
 FROM python:3.11-slim-bookworm
+# ARG NODE_VERSION=24
 
-LABEL org.opencontainers.image.source = "https://github.com/muselab-d2x/d2x"
-
-# Install sfdx
+# Install common pre-reqs
 RUN apt-get update
 RUN apt-get upgrade -y
-RUN apt-get install -y gnupg wget curl git
+RUN apt-get install -y gnupg wget curl git unzip bash jq
+
+# # Install NVM and Node.js
+# RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+# ENV NVM_DIR=/root/.nvm
+# RUN bash -c "source $NVM_DIR/nvm.sh && nvm install $NODE_VERSION"
 
 # Install Node.js
-RUN \
-  echo "deb https://deb.nodesource.com/node_20.x bullseye main" > /etc/apt/sources.list.d/nodesource.list && \
-  wget -qO- https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - && \
-  apt-get update
+RUN curl -fsSL https://deb.nodesource.com/setup_24.x | bash
 RUN apt-get install -y nodejs
+RUN node -v
+# RUN \
+#  echo "deb https://deb.nodesource.com/node_20.x bullseye main" > /etc/apt/sources.list.d/nodesource.list && \
+#  wget -qO- https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - && \
+#  apt-get update
+# RUN apt-get install -y nodejs
 # RUN npm install --global npm jq commander
-# RUN npm install --global sfdx-cli --ignore-scripts
+
+# Install SF CLI
 RUN npm install --global @salesforce/cli --ignore-scripts
 
 # Install GitHub CLI
@@ -23,19 +31,16 @@ RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/g
 RUN apt-get install -y gh
 
 # Install PowerShell
-RUN apt-get install -y libicu72
+RUN apt-get install -y apt-transport-https software-properties-common
 WORKDIR /tmp
-RUN wget -q https://github.com/PowerShell/PowerShell/releases/download/v7.4.1/powershell_7.4.1-1.deb_amd64.deb
-RUN dpkg -i powershell_7.4.1-1.deb_amd64.deb
-RUN apt-get install -f
-RUN rm powershell_7.4.1-1.deb_amd64.deb
+RUN source /etc/os-release && wget -q https://packages.microsoft.com/config/debian/$VERSION_ID/packages-microsoft-prod.deb
+RUN dpkg -i packages-microsoft-prod.deb
+RUN rm packages-microsoft-prod.deb
+RUN apt-get update
+RUN apt-get install -y powershell
 
-# Install common tools
-RUN apt-get install -y unzip bash
-
-# Install Salesforce CLI plugins:
-# RUN sfdx plugins:install @salesforce/sfdx-scanner
-RUN sf plugins install @salesforce/sfdx-scanner
+# Install Salesforce Code Analyzer:
+RUN sf plugins install code-analyzer
 
 # Install CumulusCI
 RUN pip install --no-cache-dir --upgrade pip pip-tools
@@ -55,5 +60,6 @@ RUN echo 'export PATH=~/.local/bin:$PATH' >> /home/d2x/.bashrc
 RUN echo '/usr/local/bin/devhub.sh' >> /root/.bashrc
 RUN echo '/usr/local/bin/devhub.sh' >> /home/d2x/.bashrc
 
-USER d2x
+# USER d2x
+# ENTRYPOINT ["bash", "-c", "source $NVM_DIR/nvm.sh && exec \"$@\"", "--"]
 CMD ["bash"]
